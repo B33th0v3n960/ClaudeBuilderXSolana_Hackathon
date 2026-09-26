@@ -1,0 +1,15 @@
+{
+  "name": "transferable_game_ownership",
+  "version": "1.0.0",
+  "description": "Proves the toolchain works end-to-end: build → test → deploy to devnet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/web3.js": "^1.99.0"
+  }
+}

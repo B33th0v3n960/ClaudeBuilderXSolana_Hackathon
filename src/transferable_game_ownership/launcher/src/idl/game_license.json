@@ -1,0 +1,565 @@
+{
+  "address": "79qFZV1E5tBdLeoqAx495yW4LnP33coF81v288HpKwoe",
+  "metadata": {
+    "name": "game_license",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "buy",
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game",
+          "writable": true
+        },
+        {
+          "name": "developer",
+          "docs": [
+            "The developer's wallet — must match `game.authority`. Receives payment directly."
+          ],
+          "writable": true
+        },
+        {
+          "name": "license",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  99,
+                  101,
+                  110,
+                  115,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game"
+              },
+              {
+                "kind": "account",
+                "path": "game.license_count",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "buy_listed",
+      "discriminator": [
+        75,
+        236,
+        50,
+        95,
+        167,
+        79,
+        50,
+        201
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game",
+          "relations": [
+            "license"
+          ]
+        },
+        {
+          "name": "developer",
+          "docs": [
+            "Developer wallet, pinned to the game's recorded authority so the royalty can't be redirected."
+          ],
+          "writable": true
+        },
+        {
+          "name": "license",
+          "writable": true,
+          "relations": [
+            "listing"
+          ]
+        },
+        {
+          "name": "seller",
+          "docs": [
+            "The current owner. Deliberately NOT a signer: they consented when they created the listing,",
+            "and the licence is a PDA this program controls, so no second signature is needed to move it."
+          ],
+          "writable": true,
+          "relations": [
+            "listing"
+          ]
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "license"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel_listing",
+      "discriminator": [
+        41,
+        183,
+        50,
+        232,
+        230,
+        233,
+        157,
+        70
+      ],
+      "accounts": [
+        {
+          "name": "seller",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "listing"
+          ]
+        },
+        {
+          "name": "license",
+          "relations": [
+            "listing"
+          ]
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "license"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_game",
+      "discriminator": [
+        124,
+        69,
+        75,
+        66,
+        184,
+        220,
+        72,
+        206
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "game_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "game_id",
+          "type": "u64"
+        },
+        {
+          "name": "price_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "lend",
+      "discriminator": [
+        89,
+        34,
+        75,
+        168,
+        122,
+        47,
+        185,
+        45
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "license"
+          ]
+        },
+        {
+          "name": "license",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "borrower",
+          "type": "pubkey"
+        },
+        {
+          "name": "minutes",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "list_for_sale",
+      "discriminator": [
+        188,
+        214,
+        1,
+        112,
+        93,
+        215,
+        124,
+        207
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "license"
+          ]
+        },
+        {
+          "name": "license"
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "license"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "price_lamports",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "discriminator": [
+        27,
+        90,
+        166,
+        125,
+        74,
+        100,
+        121,
+        18
+      ]
+    },
+    {
+      "name": "License",
+      "discriminator": [
+        248,
+        152,
+        195,
+        100,
+        185,
+        108,
+        176,
+        231
+      ]
+    },
+    {
+      "name": "Listing",
+      "discriminator": [
+        218,
+        32,
+        50,
+        73,
+        43,
+        134,
+        26,
+        58
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AlreadyLentOut",
+      "msg": "This licence is already lent out and the loan has not expired yet"
+    },
+    {
+      "code": 6001,
+      "name": "CannotLendToSelf",
+      "msg": "You cannot lend a licence to yourself"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidLoanLength",
+      "msg": "Loan length must be between 1 minute and 30 days"
+    },
+    {
+      "code": 6003,
+      "name": "CannotSellWhileLentOut",
+      "msg": "A licence that is out on loan cannot be sold until the loan expires"
+    },
+    {
+      "code": 6004,
+      "name": "CannotBuyYourOwnListing",
+      "msg": "You cannot buy your own listing"
+    }
+  ],
+  "types": [
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Developer wallet — receives payment on every `buy`."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "price_lamports",
+            "type": "u64"
+          },
+          {
+            "name": "license_count",
+            "docs": [
+              "Next license's sequence number; also how many copies have been sold."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "License",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "borrower",
+            "docs": [
+              "Set by a future `lend` instruction; `None` means no active loan."
+            ],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "expiry",
+            "docs": [
+              "Unix timestamp the current loan ends; ignored while `borrower` is `None`."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "purchased_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Listing",
+      "docs": [
+        "A copy offered for sale. Its existence *is* the \"for sale\" flag, and it doubles as the seller's",
+        "standing consent — the buyer completes the sale alone, later, without the seller signing again.",
+        "Kept separate from `License` so listing a copy doesn't change the `License` layout."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "license",
+            "docs": [
+              "PDA seeds bind this, but store it too: a PDA can't be reversed back into its seeds, so a",
+              "client fetching all listings would otherwise not know which licence each one refers to."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "price_lamports",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "GAME_SEED",
+      "type": "bytes",
+      "value": "[103, 97, 109, 101]"
+    },
+    {
+      "name": "LICENSE_SEED",
+      "type": "bytes",
+      "value": "[108, 105, 99, 101, 110, 115, 101]"
+    },
+    {
+      "name": "LISTING_SEED",
+      "type": "bytes",
+      "value": "[108, 105, 115, 116, 105, 110, 103]"
+    },
+    {
+      "name": "MAX_LOAN_MINUTES",
+      "docs": [
+        "30 days. Caps a \"loan\" from being a permanent transfer in disguise, which would sidestep the",
+        "resale royalty."
+      ],
+      "type": "i64",
+      "value": "43200"
+    },
+    {
+      "name": "ROYALTY_BPS",
+      "docs": [
+        "Developer's cut of every resale, in basis points (1000 = 10%). A program constant rather than a",
+        "per-game setting, so the three Game accounts already on devnet keep their layout."
+      ],
+      "type": "u64",
+      "value": "1000"
+    }
+  ]
+}

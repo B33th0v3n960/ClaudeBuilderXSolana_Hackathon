@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Neon Drifter",
+    "blurb": "Outrun the grid in a rain-soaked megacity. Synthwave racer.",
+    "accent": "#ff3d81",
+    "seedPriceSol": 0.1
+  },
+  {
+    "id": 2,
+    "title": "Hollow Ascent",
+    "blurb": "Climb a dead god's spine. Punishing, hand-drawn metroidvania.",
+    "accent": "#4ea8ff",
+    "seedPriceSol": 0.25
+  },
+  {
+    "id": 3,
+    "title": "Starbound Tactics",
+    "blurb": "Turn-based fleet command across a collapsing empire.",
+    "accent": "#ffc24e",
+    "seedPriceSol": 0.05
+  }
+]

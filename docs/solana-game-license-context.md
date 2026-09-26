@@ -4,6 +4,10 @@
 > completed, architectural decisions already made, and what remains open.
 > Assume the user is **new to Solana and to blockchain generally** — explain terminology,
 > do not assume prior knowledge.
+>
+> **For how the built program actually works — accounts, ownership verification, byte layout,
+> gotchas and measured costs — see [`program-notes.md`](program-notes.md).** This document is the
+> *why*; that one is the *how*.
 
 ---
 
